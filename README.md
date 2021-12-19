@@ -1,6 +1,6 @@
 # JAR Remapper Extension
 
-Extensions to [JAR Remapper](https://github.com/pocolifo/jar-remapper) that include extra features that you may need
+Extra features for [JAR Remapper](https://github.com/pocolifo/jar-remapper)
 
 ## Features
 
