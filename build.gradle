@@ -58,6 +58,7 @@ publishing {
                 name = 'JAR Remapper Extensions'
                 description = 'Extra features for JAR Remapper'
                 artifactId = 'extensions'
+                version = System.getenv("RELEASE_VERSION")
 
                 licenses {
                     license {
