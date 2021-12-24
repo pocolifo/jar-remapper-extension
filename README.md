@@ -33,8 +33,13 @@ JarRemapper.newRemap()
 // ...whatever other options you use for JAR Remapper...
 ```
 
-## Develop
+
+# Develop
 
 1. Clone this repository
 2. Import the project into IntelliJ IDEA
-3. Run the `setup` Gradle task
+
+### To test
+1. Edit the `jarremapper` extension configuration in [build.gradle](build.gradle) to add readers and engines
+2. Run the `generateTests` Gradle task under the `jarremapperdev` group to generate test classes
+3. Test like normal

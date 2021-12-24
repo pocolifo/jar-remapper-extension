@@ -1,4 +1,4 @@
-package com.pocolifo.fabricmcjarremapper;
+package com.pocolifo.jarremapper.extensions;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -23,7 +23,7 @@ import net.fabricmc.tinyremapper.OutputConsumerPath;
 import net.fabricmc.tinyremapper.TinyRemapper;
 
 public class TinyRemapperEngine extends AbstractRemappingEngine {
-	private TinyRemapper.Builder options;
+	private TinyRemapper.Builder options = TinyRemapper.newRemapper();
 	private boolean excludeMetaInf;
 
 	public TinyRemapperEngine setOptions(TinyRemapper.Builder options) {
@@ -38,7 +38,6 @@ public class TinyRemapperEngine extends AbstractRemappingEngine {
 
 	@Override
 	public void remap() throws IOException {
-		assert this.options != null;
 
 		TinyRemapper remapper = this.options
 				.withMappings(createProvider(this.mapping))
@@ -88,9 +87,17 @@ public class TinyRemapperEngine extends AbstractRemappingEngine {
 				}
 
 				for (MethodMapping mtd : cls.methodMappings) {
-					acceptor.acceptMethod(new IMappingProvider.Member(cls.fromClassName, mtd.fromMethodName, mtd.fromMethodDescriptor), mtd.toMethodName);
+					IMappingProvider.Member mtdMember = new IMappingProvider.Member(cls.fromClassName, mtd.fromMethodName, mtd.fromMethodDescriptor);
 
-					// TODO: parameters
+					acceptor.acceptMethod(mtdMember, mtd.toMethodName);
+
+					/*
+					TODO: does this work??
+
+					for (int i = 0; mtd.parameterNames.size() > i; i++) {
+						acceptor.acceptMethodArg(mtdMember, i, mtd.parameterNames.get(i));
+					}
+					*/
 				}
 			}
 		};

@@ -1,2 +1,11 @@
-rootProject.name = 'jar-remapper-extension'
+pluginManagement {
+    repositories {
+        maven {
+            url 'https://maven.services.pocolifo.com'
+            name 'pocolifo'
+        }
+    }
+}
+
+rootProject.name = 'extensions'
 

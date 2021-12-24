@@ -3,8 +3,7 @@
 build/
 *.iml
 
-/output.jar
-/reversed.jar
+/*.jar
 
-src/test/resources/mappings
-src/test/resources/minecraft-*
+src/test/java/com/pocolifo/jarremapperextension/tests/*
+src/test/resources/*
