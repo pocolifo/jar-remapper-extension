@@ -5,11 +5,21 @@ Extra features for [JAR Remapper](https://github.com/pocolifo/jar-remapper)
 ## Features
 
 #### More Remapping Engines
-- Tiny Remapper by FabricMC 
+- [Tiny Remapper](https://github.com/FabricMC/tiny-remapper) by FabricMC
+- [Special Source](https://github.com/md-5/SpecialSource) by MD-5
 
+
+## Mapping Engine Support
+| Remapping Engine | Classes | Fields | Methods | Parameters |
+|---|---|---|---|---|
+| Standard | ✔️ | ✔️ | ✔️ | ✔️ |
+| Tiny Remapper | ✔️ | ✔️ | ✔️ | ❌* |
+| Special Source | ✔️ | ✔️ | ✔️ | ❌ |
+
+*coming soon
 
 ## Coming Soon
-- Parameter name remapping
+- Parameter name remapping for Tiny Remapper
 
 ## Getting Started
 
@@ -33,6 +43,19 @@ JarRemapper.newRemap()
 // ...whatever other options you use for JAR Remapper...
 ```
 
+#### Special Source Remapping Engine
+
+Append the `withRemappingEngine` option to JAR Remapper.
+
+```java
+JarRemapper.newRemap()
+    .withRemappingEngine(new SpecialSourceEngine()
+        // (optional)
+        // Excludes the META-INF directory from output JAR
+        .excludeMetaInf()
+    )
+// ...whatever other options you use for JAR Remapper...
+```
 
 # Develop
 

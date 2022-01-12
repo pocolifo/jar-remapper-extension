@@ -1,18 +1,7 @@
 package com.pocolifo.jarremapper.extensions;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
-import com.pocolifo.jarremapper.Utility;
 import com.pocolifo.jarremapper.engine.AbstractRemappingEngine;
 import com.pocolifo.jarremapper.mapping.ClassMapping;
 import com.pocolifo.jarremapper.mapping.FieldMapping;
@@ -53,28 +42,8 @@ public class TinyRemapperEngine extends AbstractRemappingEngine {
 		}
 
 		// copy resources
-		Map<String, String> env = new HashMap<>();
-		env.put("create", "true");
-
-		URI uri = URI.create("jar:" + this.outputFile.toURI());
-
-		try (FileSystem fileSystem = FileSystems.newFileSystem(uri, env)) {
-			try (ZipInputStream stream = new ZipInputStream(new FileInputStream(this.inputFile))) {
-				for (ZipEntry entry; (entry = stream.getNextEntry()) != null;) {
-					if (!entry.getName().endsWith(".class") && !entry.isDirectory()) {
-						if (this.excludeMetaInf && entry.getName().startsWith("META-INF")) continue;
-
-						Path path = fileSystem.getPath(entry.getName());
-
-						if (path.getParent() != null) {
-							Files.createDirectories(path.getParent());
-						}
-
-						Files.write(path, Utility.readInputStream(stream));
-					}
-				}
-			}
-		}
+		ExtensionUtility.copyResources(this.inputFile, this.outputFile);
+		if (this.excludeMetaInf) ExtensionUtility.removeMetaInf(this.outputFile);
 	}
 
 	public static IMappingProvider createProvider(JarMapping mapping) {
