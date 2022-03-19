@@ -1,6 +1,7 @@
 package com.pocolifo.jarremapper.extensions;
 
 import java.io.IOException;
+import java.nio.file.Path;
 
 import com.pocolifo.jarremapper.engine.AbstractRemappingEngine;
 import com.pocolifo.jarremapper.mapping.ClassMapping;
@@ -14,6 +15,7 @@ import net.fabricmc.tinyremapper.TinyRemapper;
 public class TinyRemapperEngine extends AbstractRemappingEngine {
 	private TinyRemapper.Builder options = TinyRemapper.newRemapper();
 	private boolean excludeMetaInf;
+	private Path[] classpath;
 
 	public TinyRemapperEngine setOptions(TinyRemapper.Builder options) {
 		this.options = options;
@@ -25,15 +27,20 @@ public class TinyRemapperEngine extends AbstractRemappingEngine {
 		return this;
 	}
 
+	public TinyRemapperEngine setClasspath(Path... classpath) {
+		this.classpath = classpath;
+		return this;
+	}
+
 	@Override
 	public void remap() throws IOException {
-
 		TinyRemapper remapper = this.options
 				.withMappings(createProvider(this.mapping))
 				.ignoreFieldDesc(true)
 				.build();
 
 		remapper.readInputs(this.inputFile.toPath());
+		if (this.classpath != null) remapper.readClassPath(this.classpath);
 
 		try (OutputConsumerPath path = new OutputConsumerPath.Builder(this.outputFile.toPath()).build()) {
 			remapper.apply(path);
@@ -60,13 +67,7 @@ public class TinyRemapperEngine extends AbstractRemappingEngine {
 
 					acceptor.acceptMethod(mtdMember, mtd.toMethodName);
 
-					/*
-					TODO: does this work??
-
-					for (int i = 0; mtd.parameterNames.size() > i; i++) {
-						acceptor.acceptMethodArg(mtdMember, i, mtd.parameterNames.get(i));
-					}
-					*/
+					// TODO: Method parameters
 				}
 			}
 		};

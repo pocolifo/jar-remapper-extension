@@ -29,6 +29,7 @@ public class ExtensionUtility {
 		try (FileSystem fileSystem = getFileSystem(outputFile)) {
 			try (ZipInputStream stream = new ZipInputStream(new FileInputStream(inputFile))) {
 				for (ZipEntry entry; (entry = stream.getNextEntry()) != null;) {
+					if (entry.isDirectory()) continue;
 					if (entry.getName().endsWith(".class")) continue;
 
 					Path path = fileSystem.getPath(entry.getName());

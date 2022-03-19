@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'com.pocolifo.jarremapper'
-version '1.2.0'
+version '1.2.1'
 
 repositories {
     mavenCentral()
@@ -15,13 +15,13 @@ repositories {
     }
 
     maven {
-        url 'https://maven.services.pocolifo.com'
+        url 'https://maven.services.pocolifo.com/releases'
     }
 }
 
 dependencies {
-    implementation 'com.pocolifo:jarremapper:2.0.0'
-    implementation 'net.fabricmc:tiny-remapper:0.7.0'
+    implementation 'com.pocolifo:jarremapper:2.0.2'
+    implementation 'net.fabricmc:tiny-remapper:0.8.1'
     implementation 'net.md-5:SpecialSource:1.11.0'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
@@ -52,7 +52,7 @@ jarremapper {
             'com.pocolifo.jarremapper.extensions.TinyRemapperEngine/new TinyRemapperEngine().setOptions(net.fabricmc.tinyremapper.TinyRemapper.newRemapper().ignoreConflicts(true)).excludeMetaInf()',
 
             // Special source
-            //'com.pocolifo.jarremapper.extensions.SpecialSourceEngine/new SpecialSourceEngine()',
+            'com.pocolifo.jarremapper.extensions.SpecialSourceEngine/new SpecialSourceEngine()',
             'com.pocolifo.jarremapper.extensions.SpecialSourceEngine/new SpecialSourceEngine().excludeMetaInf()'
     ]
 }
@@ -64,7 +64,7 @@ publishing {
                 name = 'JAR Remapper Extensions'
                 description = 'Extra features for JAR Remapper'
                 artifactId = 'extensions'
-                version = System.getenv("RELEASE_VERSION")
+                version = System.getenv("RELEASE_VERSION") == null ? project.version : System.getenv("RELEASE_VERSION")
 
                 licenses {
                     license {
